@@ -1,0 +1,106 @@
+---
+title: "Project 4"
+author: "Phil, Jess, Hannah"
+date: "2023-10-01"
+output: html_document
+bibliography: BIOL3140.bib
+---
+```{r,include=FALSE}
+library(tidyverse) #always
+library(ape) #for evo analysis
+library(nlme) #ditto
+library(MuMIn) #for AIC
+library(geiger) #for eco analysis
+library(knitr) #for knitting options
+```
+# Introduction
+
+The purpose of this project was to assess the relationship between anole hind limb-length and size (as measured by snout-vent length). Data collected in a study of allometry and ecomorphology of anoles (@hagey2017there) and tree data from a study of the phylogenetic relationships of anoles (@poe2017phylogenetic) were used to generate phylogenetically corrected models under BM and OU character evolution with respect to established covariates.
+
+
+## Methods
+
+Data from (@hagey2017there) was summarized in tables and log transformed for analysis. Using the nlme and ape packages in R and anole phylogenetic tree data from @poe2017phylogenetic, phylogenetic generalized least squares (PGLS) models were generated under BM and OU character evolution modes with and without Ecomorph as a covariate. Model fit was assessed with AIC scores using the MuMIN and geiger packages. 
+
+### Results 
+
+```{r, echo=FALSE, message=FALSE, label="load the data"}
+anole <- read_csv("anole.dat.csv")
+anole.eco <- read_csv("anole.eco.csv")
+anole.tree <- read.tree("anole.tre")
+```
+```{r, echo=FALSE,message=FALSE, label= "join, filter, mutate to log"}
+anole2 <- anole%>%
+left_join(anole.eco)%>%
+  filter(!Ecomorph%in%c("U","CH"))%>%
+  na.omit()
+
+anole.log <- anole2%>%
+  mutate_at(c("SVL", "HTotal","PH","ArbPD"),log)
+```
+```{r, echo=FALSE,label= "PGLS models"}
+### phylogenetic GLS models
+
+#PGLS under BM, no ecomorph
+pgls.BM1 <- gls(HTotal ~SVL, correlation = corBrownian(1,phy = anole.tree,form=~Species),data = anole.log, method = "ML")
+
+#PGLS under BM, w ecomorph
+pgls.BM2 <- gls(HTotal ~SVL * Ecomorph2, correlation = corBrownian(1,phy = anole.tree,form=~Species),data = anole.log, method = "ML")
+
+#PGLS under OU, no ecomorph
+pgls.OU1 <- gls(HTotal ~SVL, correlation = corMartins(0,phy = anole.tree,form=~Species),data = anole.log, method = "ML")
+
+#PGLS under OU, w, ecomorph
+pgls.OU2 <- gls(HTotal ~SVL * Ecomorph2, correlation = corMartins(0,phy = anole.tree,form=~Species),data = anole.log, method = "ML")
+```
+```{r,echo=FALSE,label="AIC"}
+#AIC operations
+anole.phylo.aic <- AICc(pgls.BM1,pgls.BM2,pgls.OU1,pgls.OU2)
+anole.phylow.aicw <- aicw(anole.phylo.aic$AICc)
+```
+```{r, echo=FALSE, label="add residuals"}
+#add phylo-corrected residuals
+anole.log <- anole.log%>%
+  mutate(phylo.res=residuals(pgls.BM2))
+```{r, echo=FALSE, "adding AIC Table"}
+anole.phylo.aic %>% 
+  kable(caption = "Summary of PGLS Model AIC Scores(Key:BM1 = Hindlimb Length~Snout Vent Length no covariate, BM2 = Hindlimb Length~Snout Vent Length + Ecomorph covariate, OU1 = Hindlimb Length~Snout Vent Length no covariate, OU2 = Hindlimb Length~Snout Vent Length + Ecomorph covariate)")
+```
+PGLS model of hind-limb variation under BM character evolution and with Ecomorph as a covariate yielded the best fit. Model fit was visualized for each Ecomorph in the following graph: 
+```{r, message = FALSE,echo=FALSE, label="Linear Regression of log-transformed Htotal vs SVL colored by covariateEcomorph"}
+#Linear Regression of log-transformed Htotal vs SVL colored by covariateEcomorph
+anole.log%>%
+  ggplot(aes(HTotal,SVL,col=Ecomorph2))+geom_point()+geom_smooth(method="lm")
+```
+Residuals were plotted in the following graph:
+```{r,echo=FALSE, label="plot residuals", fig.cap="Boxplot of phylogenetically corrected hindlimb residuals versus anole ecomorph"}
+#plot residuals
+p.eco.phylo <- anole.log%>%
+ggplot(aes(x=Ecomorph2,y=phylo.res)) +geom_boxplot() +stat_summary(fun=mean, geom="point", size=3)
+print(p.eco.phylo)
+```
+
+
+#### Discussion 
+
+
+##### Author Contributions 
+
+Group members completed the assignment separately and then came together to compare codes, answer questions, and create a final product. 
+
+###### References 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
