@@ -76,6 +76,12 @@ PGLS model of hind-limb variation under BM character evolution and with Ecomorph
 anole.log%>%
   ggplot(aes(SVL,HTotal,col=Ecomorph2))+geom_point()+geom_smooth(method="lm")
 ```
+
+
+
+
+
+
 A positive correlation between hind-limb length and SVL was observed for each Ecomorph.  
 
 
