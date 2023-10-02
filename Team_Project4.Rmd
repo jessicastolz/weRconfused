@@ -75,7 +75,7 @@ PGLS model of hind-limb variation under BM character evolution and with Ecomorph
 anole.log%>%
   ggplot(aes(HTotal,SVL,col=Ecomorph2))+geom_point()+geom_smooth(method="lm")
 ```
-
+### The results revealed a positive correlation between the ecomorphs and the hindlimb-SVL relationship in anoles. This is shwon through the use of AIC, BM and OU models. 
 
 
 
@@ -93,8 +93,8 @@ print(p.eco.phylo)
 ```
 
 
-#### Discussion 
-
+## Discussion 
+### The results from the experiment indicate a relationship between the hindlimb-SVL length and the ecomorphs. Through the use of Brownian and OU models, the data indicates that species with similar ecological niches, but not necessarily a common ancestor, have similar phylogenetic expression despite due to their common niche. 
 
 ##### Author Contributions 
 
