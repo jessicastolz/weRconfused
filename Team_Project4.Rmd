@@ -15,7 +15,7 @@ library(knitr) #for knitting options
 ```
 # Introduction
 
-The purpose of this project was to assess the relationship between anole hind limb-length and size (as measured by snout-vent length). Data collected in a study of allometry and ecomorphology of anoles (@hagey2017there) and tree data from a study of the phylogenetic relationships of anoles (@poe2017phylogenetic) were used to generate phylogenetically corrected models under BM and OU character evolution with respect to established covariates.
+The purpose of this project was to assess the contribution of phylogeny and ecomorph on the relationship between anole hind limb-length and size (as measured by snout-vent length). Data collected in a study of allometry and ecomorphology of anoles (@hagey2017there) and tree data from a study of the phylogenetic relationships of anoles (@poe2017phylogenetic) were used to generate phylogenetically corrected models under BM and OU character evolution with and without Ecomorph as a factor. 
 
 <center>
 [![An anolis lizard](https://a-z-animals.com/media/green-anole.jpg)](https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcQ3X6IkVdXlYV9zBSiFRqKy1_NDl2m7xTtIrQ3ohygmMH1yczwW)
@@ -65,22 +65,18 @@ anole.phylow.aicw <- aicw(anole.phylo.aic$AICc)
 #add phylo-corrected residuals
 anole.log <- anole.log%>%
   mutate(phylo.res=residuals(pgls.BM2))
-```{r, echo=FALSE, "adding AIC Table"}
+```
+```{r, echo=FALSE, label="adding AIC Table"}
 anole.phylo.aic %>% 
   kable(caption = "Summary of PGLS Model AIC Scores(Key:BM1 = Hindlimb Length~Snout Vent Length no covariate, BM2 = Hindlimb Length~Snout Vent Length + Ecomorph covariate, OU1 = Hindlimb Length~Snout Vent Length no covariate, OU2 = Hindlimb Length~Snout Vent Length + Ecomorph covariate)")
 ```
-PGLS model of hind-limb variation under BM character evolution and with Ecomorph as a covariate yielded the best fit. Model fit was visualized for each Ecomorph in the following graph: 
-```{r, message = FALSE,echo=FALSE, label="Linear Regression of log-transformed Htotal vs SVL colored by covariateEcomorph"}
+PGLS model of hind-limb variation under BM character evolution and with Ecomorph as a covariate yielded the best fit (BM2). Model fit was visualized for each Ecomorph in the following graph. 
+```{r, message = FALSE,echo=FALSE, label="Linear Regression of log-transformed Htotal vs SVL colored by covariate Ecomorph"}
 #Linear Regression of log-transformed Htotal vs SVL colored by covariateEcomorph
 anole.log%>%
-  ggplot(aes(HTotal,SVL,col=Ecomorph2))+geom_point()+geom_smooth(method="lm")
+  ggplot(aes(SVL,HTotal,col=Ecomorph2))+geom_point()+geom_smooth(method="lm")
 ```
-### The results revealed a positive correlation between the ecomorphs and the hindlimb-SVL relationship in anoles. This is shwon through the use of AIC, BM and OU models. 
-
-
-
-
-
+A positive correlation between hind-limb length and SVL was observed for each Ecomorph.  
 
 
 
@@ -94,7 +90,7 @@ print(p.eco.phylo)
 
 
 ## Discussion 
-### The results from the experiment indicate a relationship between the hindlimb-SVL length and the ecomorphs. Through the use of Brownian and OU models, the data indicates that species with similar ecological niches, but not necessarily a common ancestor, have similar phylogenetic expression despite due to their common niche. 
+The PGLS model under BM including Ecomorph as a factor has the best fit. This finding suggests that both phylogeny and Ecomorph are factors in predicting the anole hind-limb-Size relationship. Although significant, Ecomorph has a weaker effect on this relationship than phylogeny. 
 
 ##### Author Contributions 
 
