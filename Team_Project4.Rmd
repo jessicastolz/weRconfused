@@ -70,7 +70,7 @@ anole.log <- anole.log%>%
 anole.phylo.aic %>% 
   kable(caption = "Summary of PGLS Model AIC Scores(Key:BM1 = Hindlimb Length~Snout Vent Length no covariate, BM2 = Hindlimb Length~Snout Vent Length + Ecomorph covariate, OU1 = Hindlimb Length~Snout Vent Length no covariate, OU2 = Hindlimb Length~Snout Vent Length + Ecomorph covariate)")
 ```
-PGLS model of hind-limb variation under BM character evolution and with Ecomorph as a covariate yielded the best fit (BM2). Model fit was visualized for each Ecomorph in the following graph. 
+PGLS model of hind-limb variation under BM character evolution and with Ecomorph as a covariate yielded the best fit (BM2). BM2 Model fit was visualized for each Ecomorph in the following graph. 
 ```{r, message = FALSE,echo=FALSE, label="Linear Regression of log-transformed Htotal vs SVL colored by covariate Ecomorph"}
 #Linear Regression of log-transformed Htotal vs SVL colored by covariateEcomorph
 anole.log%>%
