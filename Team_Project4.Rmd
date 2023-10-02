@@ -18,7 +18,7 @@ library(knitr) #for knitting options
 The purpose of this project was to assess the relationship between anole hind limb-length and size (as measured by snout-vent length). Data collected in a study of allometry and ecomorphology of anoles (@hagey2017there) and tree data from a study of the phylogenetic relationships of anoles (@poe2017phylogenetic) were used to generate phylogenetically corrected models under BM and OU character evolution with respect to established covariates.
 
 <center>
-[![An anolis lizard](https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcQ3X6IkVdXlYV9zBSiFRqKy1_NDl2m7xTtIrQ3ohygmMH1yczwW)](https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcQ3X6IkVdXlYV9zBSiFRqKy1_NDl2m7xTtIrQ3ohygmMH1yczwW)
+[![An anolis lizard](https://a-z-animals.com/media/green-anole.jpg)](https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcQ3X6IkVdXlYV9zBSiFRqKy1_NDl2m7xTtIrQ3ohygmMH1yczwW)
 </center>
 
 ## Methods
